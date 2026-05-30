@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopBot Admin – Dark AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family:'Inter','Noto Sans Bengali',sans-serif; background:#0a0a0a; color:#fff; }
+
+    /* orbs */
+    .orb { position:fixed; border-radius:50%; filter:blur(90px); opacity:0.12; pointer-events:none; }
+    .orb-1 { width:500px;height:500px;background:radial-gradient(circle,#fff,#555);top:-150px;left:-100px; }
+    .orb-2 { width:350px;height:350px;background:radial-gradient(circle,#ccc,#333);bottom:-100px;right:-80px; }
+
+    .glass { background:rgba(255,255,255,0.04); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.07); }
+    .glass-dark { background:rgba(0,0,0,0.6); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,0.06); }
+    .glass-input { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.10); }
+
+    /* sidebar */
+    .sidebar { background:rgba(0,0,0,0.70); backdrop-filter:blur(30px); border-right:1px solid rgba(255,255,255,0.06); }
+    .nav-item { color:rgba(255,255,255,0.45); transition:all 0.2s; cursor:pointer; border-radius:12px; }
+    .nav-item:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.85); }
+    .nav-item.active { background:rgba(255,255,255,0.10); color:#fff; border:1px solid rgba(255,255,255,0.12); }
+
+    /* table */
+    table { border-collapse:collapse; width:100%; }
+    thead tr { background:rgba(255,255,255,0.04); }
+    th { color:rgba(255,255,255,0.35); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; padding:12px 16px; text-align:left; }
+    td { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; color:rgba(255,255,255,0.75); vertical-align:top; }
+    tr:hover td { background:rgba(255,255,255,0.025); }
+    tr:last-child td { border-bottom:none; }
+
+    .truncate-cell { max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width:3px; height:3px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.12); border-radius:2px; }
+
+    /* inputs */
+    input,textarea,select {
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.10);
+      color:#fff; border-radius:12px;
+      padding:10px 14px; font-size:13px; width:100%;
+      font-family:inherit; outline:none; transition:all 0.2s;
+    }
+    input:focus,textarea:focus,select:focus {
+      border-color:rgba(255,255,255,0.30);
+      box-shadow:0 0 0 3px rgba(255,255,255,0.05);
+    }
+    input::placeholder,textarea::placeholder { color:rgba(255,255,255,0.25); }
+    select option { background:#111; color:#fff; }
+    textarea { resize:vertical; min-height:72px; }
+
+    label { font-size:11px; font-weight:600; color:rgba(255,255,255,0.40); text-transform:uppercase; letter-spacing:0.7px; }
+
+    /* buttons */
+    .btn-primary { background:rgba(255,255,255,0.88); color:#0a0a0a; font-weight:700; transition:all 0.2s; }
+    .btn-primary:hover { background:#fff; box-shadow:0 0 20px rgba(255,255,255,0.2); transform:translateY(-1px); }
+    .btn-outline { background:transparent; border:1px solid rgba(255,255,255,0.18); color:rgba(255,255,255,0.7); transition:all 0.2s; }
+    .btn-outline:hover { background:rgba(255,255,255,0.07); color:#fff; }
+    .btn-danger { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.30); color:#f87171; transition:all 0.2s; }
+    .btn-danger:hover { background:rgba(239,68,68,0.25); }
+
+    /* stat cards */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .stat-card { animation:fadeUp 0.4s ease forwards; }
+
+    /* badge */
+    .badge { background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.14); color:rgba(255,255,255,0.65); font-size:11px; font-weight:600; padding:2px 10px; border-radius:20px; display:inline-block; text-transform:uppercase; letter-spacing:0.5px; }
+
+    /* modal */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); z-index:1000; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    @keyframes modalIn { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+    .modal { animation:modalIn 0.3s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+
+    /* alert */
+    .alert { display:none; padding:10px 14px; border-radius:10px; font-size:13px; margin-bottom:12px; }
+    .alert.visible { display:block; }
+    .alert.success { background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.25); color:#4ade80; }
+    .alert.error { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25); color:#f87171; }
+
+    /* section bilingual highlight */
+    .bn-section { border-left:2px solid rgba(255,100,100,0.4); padding-left:12px; background:rgba(255,100,100,0.04); border-radius:0 10px 10px 0; }
+    .en-section { border-left:2px solid rgba(150,200,255,0.3); padding-left:12px; background:rgba(150,200,255,0.04); border-radius:0 10px 10px 0; }
+
+    /* shimmer on header */
+    @keyframes shine { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    .shimmer-text {
+      background:linear-gradient(90deg,rgba(255,255,255,0.5) 0%,#fff 50%,rgba(255,255,255,0.5) 100%);
+      background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:shine 3s linear infinite;
+    }
+
+    .section { display:none; }
+    .section.active { display:block; }
+
+    /* progress bar */
+    .prog-bar { height:6px; border-radius:20px; background:rgba(255,255,255,0.07); overflow:hidden; }
+    .prog-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,rgba(255,255,255,0.5),rgba(255,255,255,0.2)); transition:width 0.6s ease; }
+  </style>
+</head>
+<body class="h-screen overflow-hidden">
+
+<!-- ORBS -->
+<div class="orb orb-1 z-0"></div>
+<div class="orb orb-2 z-0"></div>
+
+<!-- LAYOUT -->
+<div class="flex h-screen relative z-10">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────────────────── -->
+  <aside class="sidebar w-56 flex-shrink-0 flex flex-col gap-1 p-4 h-screen overflow-y-auto">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3 px-2 py-3 mb-3 border-b" style="border-color:rgba(255,255,255,0.07)">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg" style="background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.12)">🛍️</div>
+      <div>
+        <div class="font-bold text-sm shimmer-text">ShopBot</div>
+        <div class="text-xs" style="color:rgba(255,255,255,0.3)">Admin Panel</div>
+      </div>
+    </div>
+
+    <button class="nav-item active flex items-center gap-3 px-3 py-2.5 text-sm font-medium" onclick="showSection('dashboard')">
+      <span>📊</span> Dashboard
+    </button>
+    <button class="nav-item flex items-center gap-3 px-3 py-2.5 text-sm font-medium" onclick="showSection('faqs')">
+      <span>💬</span> All FAQs
+    </button>
+    <button class="nav-item flex items-center gap-3 px-3 py-2.5 text-sm font-medium" onclick="showSection('add')">
+      <span>➕</span> Add FAQ
+    </button>
+    <button class="nav-item flex items-center gap-3 px-3 py-2.5 text-sm font-medium" onclick="showSection('bilingual')">
+      <span>🌐</span> Bilingual
+    </button>
+    <button class="nav-item flex items-center gap-3 px-3 py-2.5 text-sm font-medium" onclick="showSection('upload')">
+      <span>📤</span> Bulk Upload
+    </button>
+
+    <div class="mt-auto pt-4 border-t" style="border-color:rgba(255,255,255,0.07)">
+      <a href="/" class="nav-item flex items-center gap-3 px-3 py-2.5 text-sm font-medium">
+        <span>💬</span> Open Chatbot
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ──────────────────────────────────────────────────────────── -->
+  <main class="flex-1 overflow-y-auto p-6">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="section-dashboard">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold">Dashboard</h1>
+          <p class="text-sm mt-1" style="color:rgba(255,255,255,0.4)">Your FAQ chatbot at a glance</p>
+        </div>
+        <button onclick="showSection('add')" class="btn-primary text-sm font-semibold px-4 py-2 rounded-xl">➕ Add FAQ</button>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="statsGrid">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="px-5 py-4 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.07)">
+          <span class="font-semibold text-sm">Category Breakdown</span>
+        </div>
+        <div class="p-5" id="categoryChart"></div>
+      </div>
+    </div>
+
+    <!-- FAQ LIST -->
+    <div class="section" id="section-faqs">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold">All FAQs</h1>
+          <p class="text-sm mt-1" id="faqCount" style="color:rgba(255,255,255,0.4)">Loading…</p>
+        </div>
+        <div class="flex gap-3 items-center">
+          <input type="text" placeholder="🔍 Search…" oninput="filterFAQs(this.value)"
+            class="text-sm w-44" style="border-radius:12px;padding:8px 14px;" />
+          <button onclick="showSection('add')" class="btn-primary text-sm font-semibold px-4 py-2 rounded-xl">➕ Add</button>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Category</th><th>Question (EN)</th>
+                <th>Question (বাং)</th><th>Keywords</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="faqTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD FAQ -->
+    <div class="section" id="section-add">
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold" id="formTitle">Add New FAQ</h1>
+        <p class="text-sm mt-1" style="color:rgba(255,255,255,0.4)">Add bilingual FAQ to the knowledge base</p>
+      </div>
+
+      <div class="alert" id="formAlert"></div>
+
+      <div class="glass rounded-2xl p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+          <div class="flex flex-col gap-2">
+            <label>Category *</label>
+            <select id="faqCategory">
+              <option value="">Select…</option>
+              <option>Orders</option><option>Shipping</option><option>Payments</option>
+              <option>Returns</option><option>Account</option><option>Products</option>
+              <option>Offers</option><option>Support</option><option>Wishlist</option><option>Other</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label>Keywords (comma separated)</label>
+            <input type="text" id="faqKeywords" placeholder="track, order, ট্র্যাক…" />
+          </div>
+        </div>
+
+        <!-- English section -->
+        <div class="en-section mb-4 py-4 pr-4">
+          <p class="text-xs font-bold mb-3" style="color:rgba(150,200,255,0.7);letter-spacing:1px">🇬🇧 ENGLISH</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+              <label>Question (EN) *</label>
+              <input type="text" id="faqQuestionEn" placeholder="How do I track my order?" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label>Answer (EN) *</label>
+              <textarea id="faqAnswerEn" placeholder="Detailed answer in English…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bangla section -->
+        <div class="bn-section mb-6 py-4 pr-4">
+          <p class="text-xs font-bold mb-3" style="color:rgba(255,120,120,0.7);letter-spacing:1px">🇧🇩 বাংলা</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+              <label>প্রশ্ন (বাংলা)</label>
+              <input type="text" id="faqQuestionBn" placeholder="আমি কিভাবে অর্ডার ট্র্যাক করব?" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label>উত্তর (বাংলা)</label>
+              <textarea id="faqAnswerBn" placeholder="বাংলায় বিস্তারিত উত্তর…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="submitFAQ()" class="btn-primary text-sm font-semibold px-5 py-2.5 rounded-xl">💾 Save FAQ</button>
+          <button onclick="resetForm()" class="btn-outline text-sm font-medium px-5 py-2.5 rounded-xl">✕ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILINGUAL -->
+    <div class="section" id="section-bilingual">
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold">🌐 Bilingual Coverage</h1>
+        <p class="text-sm mt-1" style="color:rgba(255,255,255,0.4)">FAQs with Bangla translations</p>
+      </div>
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table>
+            <thead><tr><th>ID</th><th>Category</th><th>English Question</th><th>Bangla Question</th><th>Status</th></tr></thead>
+            <tbody id="bilingualTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BULK UPLOAD -->
+    <div class="section" id="section-upload">
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold">📤 Bulk Upload</h1>
+        <p class="text-sm mt-1" style="color:rgba(255,255,255,0.4)">Upload multiple FAQs via JSON file</p>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,0.5)">Upload a JSON array. Each item needs <code class="px-1.5 py-0.5 rounded text-xs" style="background:rgba(255,255,255,0.08)">category</code>, <code class="px-1.5 py-0.5 rounded text-xs" style="background:rgba(255,255,255,0.08)">question_en</code>, <code class="px-1.5 py-0.5 rounded text-xs" style="background:rgba(255,255,255,0.08)">answer_en</code>.</p>
+        <div class="flex gap-3 flex-wrap items-center mb-4">
+          <input type="file" id="bulkFile" accept=".json" class="text-sm" style="width:auto;padding:8px;" />
+          <button onclick="previewBulk()" class="btn-outline text-sm font-medium px-4 py-2 rounded-xl">👁 Preview</button>
+          <button onclick="uploadBulk()" class="btn-primary text-sm font-semibold px-4 py-2 rounded-xl">⬆️ Upload</button>
+        </div>
+        <div id="bulkPreview"></div>
+
+        <!-- Format example -->
+        <div class="mt-5 rounded-xl p-4" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07)">
+          <p class="text-xs font-bold mb-2" style="color:rgba(255,255,255,0.35);letter-spacing:0.5px">JSON FORMAT EXAMPLE</p>
+          <pre class="text-xs overflow-auto" style="color:rgba(255,255,255,0.45)">[
+  {
+    "category": "Orders",
+    "question_en": "How do I place an order?",
+    "answer_en": "Browse products and add to cart...",
+    "question_bn": "কিভাবে অর্ডার করব?",
+    "answer_bn": "পণ্য ব্রাউজ করুন...",
+    "keywords": ["order","buy","অর্ডার"]
+  }
+]</pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal glass-dark rounded-2xl p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="font-bold text-lg">✏️ Edit FAQ</h2>
+      <button onclick="closeEditModal()" class="text-lg" style="color:rgba(255,255,255,0.4);">✕</button>
+    </div>
+    <div class="alert" id="editAlert"></div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div class="flex flex-col gap-2"><label>Category</label>
+        <select id="editCategory">
+          <option>Orders</option><option>Shipping</option><option>Payments</option>
+          <option>Returns</option><option>Account</option><option>Products</option>
+          <option>Offers</option><option>Support</option><option>Wishlist</option><option>Other</option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-2"><label>Keywords</label><input id="editKeywords"/></div>
+      <div class="flex flex-col gap-2"><label>Question (EN)</label><input id="editQuestionEn"/></div>
+      <div class="flex flex-col gap-2"><label>Answer (EN)</label><textarea id="editAnswerEn"></textarea></div>
+      <div class="flex flex-col gap-2"><label>Question (বাং)</label><input id="editQuestionBn"/></div>
+      <div class="flex flex-col gap-2"><label>Answer (বাং)</label><textarea id="editAnswerBn"></textarea></div>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="saveEdit()" class="btn-primary text-sm font-semibold px-5 py-2.5 rounded-xl">💾 Save</button>
+      <button onclick="closeEditModal()" class="btn-outline text-sm font-medium px-5 py-2.5 rounded-xl">Cancel</button>
+    </div>
+    <input type="hidden" id="editId"/>
+  </div>
+</div>
+
+<script>
+  let allFAQs = [];
+
+  // ── NAV ───────────────────────────────────────────────────────────────────
+  function showSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(`section-${name}`).classList.add('active');
+    if (name === 'dashboard') loadStats();
+    if (name === 'faqs') loadFAQTable();
+    if (name === 'bilingual') loadBilingualTable();
+  }
+
+  // ── API ───────────────────────────────────────────────────────────────────
+  async function api(url, opts = {}) {
+    const res = await fetch(url, { headers:{'Content-Type':'application/json'}, ...opts });
+    return res.json();
+  }
+
+  // ── STATS ─────────────────────────────────────────────────────────────────
+  async function loadStats() {
+    const [stats] = await Promise.all([api('/api/admin/stats')]);
+    allFAQs = (await api('/api/admin/faqs')).faqs;
+    const pct = stats.totalFAQs ? Math.round(stats.bilingualCount/stats.totalFAQs*100) : 0;
+
+    const cards = [
+      { icon:'💬', val: stats.totalFAQs, label:'Total FAQs', delay:'0.1s' },
+      { icon:'🌐', val: stats.bilingualCount, label:'Bilingual', delay:'0.2s' },
+      { icon:'📂', val: Object.keys(stats.categories).length, label:'Categories', delay:'0.3s' },
+      { icon:'🇧🇩', val: pct+'%', label:'Bangla Coverage', delay:'0.4s' },
+    ];
+
+    document.getElementById('statsGrid').innerHTML = cards.map(c => `
+      <div class="stat-card glass rounded-2xl p-5" style="animation-delay:${c.delay}">
+        <div class="text-3xl mb-3">${c.icon}</div>
+        <div class="text-3xl font-bold text-white mb-1">${c.val}</div>
+        <div class="text-xs uppercase tracking-wider" style="color:rgba(255,255,255,0.35)">${c.label}</div>
+      </div>`).join('');
+
+    document.getElementById('categoryChart').innerHTML = Object.entries(stats.categories).map(([cat, count]) => {
+      const w = Math.round(count/stats.totalFAQs*100);
+      return `<div class="flex items-center gap-4 mb-3">
+        <div class="w-24 text-xs font-medium" style="color:rgba(255,255,255,0.55)">${cat}</div>
+        <div class="flex-1 prog-bar"><div class="prog-fill" style="width:${w}%"></div></div>
+        <div class="text-xs" style="color:rgba(255,255,255,0.35);width:20px;text-align:right">${count}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── FAQ TABLE ─────────────────────────────────────────────────────────────
+  async function loadFAQTable() {
+    const data = await api('/api/admin/faqs');
+    const faqs = data.faqs || [];
+    document.getElementById('faqCount').textContent = `${faqs.length} FAQs`;
+    const body = document.getElementById('faqTableBody');
+    body.innerHTML = faqs.map(f => `<tr>
+      <td>${f.id}</td>
+      <td>${f.category}</td>
+      <td class="truncate-cell">${f.question_en}</td>
+      <td class="truncate-cell">${f.question_bn || ''}</td>
+      <td class="truncate-cell">${(f.keywords||[]).join(', ')}</td>
+      <td><button class="btn-outline" onclick="editFAQ(${f.id})">Edit</button> <button class="btn-danger" onclick="deleteFAQ(${f.id})">Delete</button></td>
+    </tr>`).join('');
+  }
+</script>
+
+</body>
+</html>

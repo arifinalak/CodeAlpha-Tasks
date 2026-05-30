@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopBot AI Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', 'Noto Sans Bengali', sans-serif; background: #0a0a0a; overflow: hidden; }
+
+    /* ── ORB ANIMATIONS ───────────────────────────────────────────────── */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: 0.18;
+      animation: orbFloat 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .orb-1 { width: 420px; height: 420px; background: radial-gradient(circle, #ffffff, #888); top: -120px; left: -80px; animation-delay: 0s; }
+    .orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, #cccccc, #444); bottom: -80px; right: -60px; animation-delay: -3s; }
+    .orb-3 { width: 200px; height: 200px; background: radial-gradient(circle, #aaaaaa, #222); top: 40%; left: 50%; animation-delay: -5s; opacity: 0.08; }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(15px, -20px) scale(1.05); }
+      66%       { transform: translate(-10px, 12px) scale(0.97); }
+    }
+
+    /* ── GLASS MORPHISM ───────────────────────────────────────────────── */
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .glass-dark {
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .glass-input {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    /* ── SCROLLBAR ────────────────────────────────────────────────────── */
+    .scroll-area::-webkit-scrollbar { width: 3px; }
+    .scroll-area::-webkit-scrollbar-track { background: transparent; }
+    .scroll-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+    /* ── CHIP HOVER ───────────────────────────────────────────────────── */
+    .chip-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.75);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .chip-btn:hover {
+      background: rgba(255,255,255,0.13);
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    /* ── MESSAGE ANIMATIONS ───────────────────────────────────────────── */
+    @keyframes msgSlideIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
+    }
+    .msg-anim { animation: msgSlideIn 0.35s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+
+    /* ── TYPING DOTS ──────────────────────────────────────────────────── */
+    @keyframes dot-bounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.35; }
+      40%            { transform: scale(1.1); opacity: 1; }
+    }
+    .dot-1 { animation: dot-bounce 1.3s infinite 0s; }
+    .dot-2 { animation: dot-bounce 1.3s infinite 0.2s; }
+    .dot-3 { animation: dot-bounce 1.3s infinite 0.4s; }
+
+    /* ── GLOW BUTTON ──────────────────────────────────────────────────── */
+    .send-btn {
+      background: rgba(255,255,255,0.90);
+      transition: all 0.2s ease;
+    }
+    .send-btn:hover {
+      background: #fff;
+      box-shadow: 0 0 24px rgba(255,255,255,0.3);
+      transform: scale(1.07);
+    }
+    .send-btn:active { transform: scale(0.95); }
+
+    /* ── INPUT FOCUS ──────────────────────────────────────────────────── */
+    .chat-input:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.25);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
+    }
+
+    /* ── BOT BUBBLE ───────────────────────────────────────────────────── */
+    .bot-bubble {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .user-bubble {
+      background: rgba(255,255,255,0.88);
+      color: #0a0a0a;
+    }
+
+    /* ── HEADER PULSE ─────────────────────────────────────────────────── */
+    @keyframes statusPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
+      50%       { box-shadow: 0 0 0 5px rgba(74,222,128,0); }
+    }
+    .status-pulse { animation: statusPulse 2s infinite; }
+
+    /* ── AVATAR RING ──────────────────────────────────────────────────── */
+    @keyframes ringRotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .avatar-ring {
+      background: conic-gradient(from 0deg, transparent 60%, rgba(255,255,255,0.5) 100%);
+      animation: ringRotate 3s linear infinite;
+    }
+
+    /* ── SUGGESTIONS ──────────────────────────────────────────────────── */
+    .suggestion-item {
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .suggestion-item:hover { background: rgba(255,255,255,0.09); }
+    .suggestion-item:last-child { border-bottom: none; }
+
+    /* ── SHINE EFFECT ─────────────────────────────────────────────────-- */
+    @keyframes shine {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .shimmer-text {
+      background: linear-gradient(90deg, rgba(255,255,255,0.5) 0%, #fff 50%, rgba(255,255,255,0.5) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    /* ── CATEGORY BADGE ───────────────────────────────────────────────── */
+    .cat-badge {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── WELCOME CARD ─────────────────────────────────────────────────── */
+    @keyframes welcomeIn {
+      from { opacity: 0; transform: scale(0.94) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .welcome-anim { animation: welcomeIn 0.6s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+
+    /* ── LANG TOGGLE ──────────────────────────────────────────────────── */
+    .lang-toggle {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.8);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .lang-toggle:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+    /* resize textarea */
+    textarea { resize: none; }
+
+    /* ── FEEDBACK ─────────────────────────────────────────────────────── */
+    .fb-btn {
+      opacity: 0.45; transition: opacity 0.2s, background 0.2s; cursor: pointer;
+      background: transparent; border: none;
+    }
+    .fb-btn:hover { opacity: 1; background: rgba(255,255,255,0.08); border-radius: 6px; }
+  </style>
+</head>
+<body class="w-screen h-screen flex items-center justify-center overflow-hidden" style="background:#0a0a0a">
+
+  <!-- ── BACKGROUND ORBS ──────────────────────────────────────────────── -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <!-- Subtle grid overlay -->
+    <div class="absolute inset-0" style="background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:40px 40px;"></div>
+  </div>
+
+  <!-- ── CHAT WINDOW ──────────────────────────────────────────────────── -->
+  <div class="glass-dark relative z-10 rounded-3xl flex flex-col overflow-hidden"
+       style="width:100%;max-width:780px;height:92vh;max-height:860px;">
+
+    <!-- HEADER -->
+    <div class="flex-shrink-0 px-6 py-4 flex items-center gap-4 border-b" style="border-color:rgba(255,255,255,0.07)">
+      <!-- Avatar with rotating ring -->
+      <div class="relative flex-shrink-0">
+        <div class="avatar-ring absolute inset-0 rounded-2xl" style="padding:2px;"></div>
+        <div class="relative w-11 h-11 rounded-2xl flex items-center justify-center text-xl"
+             style="background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.15);">
+          🛍️
+        </div>
+      </div>
+
+      <div class="flex-1">
+        <div class="font-bold text-white text-base tracking-tight shimmer-text">ShopBot AI</div>
+        <div class="flex items-center gap-2 mt-0.5">
+          <div class="w-2 h-2 rounded-full bg-green-400 status-pulse"></div>
+          <span class="text-xs" style="color:rgba(255,255,255,0.45)">Online · Always ready</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleUILang()" id="langToggle"
+          class="lang-toggle text-xs font-semibold px-3 py-1.5 rounded-full tracking-wider">
+          🌐 EN
+        </button>
+        <button onclick="clearChat()"
+          class="lang-toggle w-9 h-9 rounded-xl flex items-center justify-center text-sm">
+          🗑️
+        </button>
+        <a href="/admin"
+          class="lang-toggle w-9 h-9 rounded-xl flex items-center justify-center text-sm">
+          ⚙️
+        </a>
+      </div>
+    </div>
+
+    <!-- QUICK CHIPS -->
+    <div class="flex-shrink-0 px-5 pt-3 pb-0 flex gap-2 flex-wrap">
+      <button class="chip-btn text-xs font-medium px-3 py-1.5 rounded-full" onclick="sendChip(this)">📦 Track Order</button>
+      <button class="chip-btn text-xs font-medium px-3 py-1.5 rounded-full" onclick="sendChip(this)">🚚 Shipping Info</button>
+      <button class="chip-btn text-xs font-medium px-3 py-1.5 rounded-full" onclick="sendChip(this)">💳 Payments</button>
+      <button class="chip-btn text-xs font-medium px-3 py-1.5 rounded-full" onclick="sendChip(this)">🔄 Returns</button>
+      <button class="chip-btn text-xs font-medium px-3 py-1.5 rounded-full" onclick="sendChip(this)">🏷️ Discounts</button>
+      <button class="chip-btn text-xs font-medium px-3 py-1.5 rounded-full" onclick="sendChip(this)">📞 Support</button>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="messagesArea"
+      class="scroll-area flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-4"
+      style="scroll-behavior:smooth;">
+
+      <!-- WELCOME CARD -->
+      <div class="welcome-anim glass rounded-2xl p-6 text-center relative overflow-hidden" id="welcomeCard">
+        <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06) 0%, transparent 70%);"></div>
+        <div class="text-4xl mb-3">🤖</div>
+        <h2 class="text-white font-bold text-xl mb-2">Hey there! 👋</h2>
+        <p class="text-sm leading-relaxed mb-3" style="color:rgba(255,255,255,0.55)">
+          I'm ShopBot, your smart e-commerce assistant. Ask me anything about orders, shipping, payments, returns, or any shopping queries.
+        </p>
+        <span class="inline-block text-xs px-3 py-1.5 rounded-full"
+          style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);">
+          🇧🇩 বাংলায়ও প্রশ্ন করতে পারেন!
+        </span>
+      </div>
+    </div>
+
+    <!-- INPUT SECTION -->
+    <div class="flex-shrink-0 px-5 pb-5 pt-2">
+      <!-- Suggestions -->
+      <div id="suggestionsBox" class="hidden mb-2 rounded-2xl overflow-hidden"
+        style="border:1px solid rgba(255,255,255,0.08);background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);">
+      </div>
+
+      <div class="glass-input rounded-2xl p-3 flex items-end gap-3">
+        <!-- Plus btn (image upload) -->
+        <button id="imageBtn" onclick="triggerImageInput()" class="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-lg transition-all duration-200 hover:scale-110"
+          style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.10);color:rgba(255,255,255,0.5);">
+          +
+        </button>
+        <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="uploadImage(this.files)" />
+
+        <textarea id="userInput"
+          class="chat-input flex-1 bg-transparent text-white text-sm leading-relaxed border border-transparent rounded-xl px-1 py-1 transition-all duration-200 min-h-[36px] max-h-28"
+          placeholder="Type here you want..."
+          style="color:rgba(255,255,255,0.85);caret-color:#fff;"
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="handleInput(this)"></textarea>
+
+        <!-- Mic btn (voice input) -->
+        <button id="micBtn" onclick="toggleListen()" class="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110"
+          style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.10);color:rgba(255,255,255,0.5);">
+          🎤
+        </button>
+
+        <!-- Send btn -->
+        <button onclick="sendMessage()"
+          class="send-btn flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-black font-bold text-sm transition-all duration-200">
+          ➤
+        </button>
+      </div>
+
+      <p class="text-center text-xs mt-2" style="color:rgba(255,255,255,0.22)" id="inputHint">
+        Enter to send · Shift+Enter for new line
+      </p>
+    </div>
+  </div>
+
+<script>
+  const API = '';  // Flask serves from same origin
+  let currentLang = 'en';
+  let suggestTimeout;
+
+  // ── LANGUAGE TOGGLE ───────────────────────────────────────────────────────
+  function toggleUILang() {
+    currentLang = currentLang === 'en' ? 'bn' : 'en';
+    const btn = document.getElementById('langToggle');
+    const input = document.getElementById('userInput');
+    const hint = document.getElementById('inputHint');
+    const chips = document.querySelectorAll('.chip-btn');
+
+    if (currentLang === 'bn') {
+      btn.textContent = '🌐 বাং';
+      input.placeholder = 'বাংলায় প্রশ্ন করুন...';
+      hint.textContent = 'Enter চাপুন পাঠাতে · Shift+Enter নতুন লাইন';
+      const bnLabels = ['📦 অর্ডার ট্র্যাক','🚚 শিপিং তথ্য','💳 পেমেন্ট','🔄 রিটার্ন','🏷️ ছাড়','📞 সাপোর্ট'];
+      chips.forEach((c,i) => { if(bnLabels[i]) c.textContent = bnLabels[i]; });
+    } else {
+      btn.textContent = '🌐 EN';
+      input.placeholder = 'Type here you want...';
+      hint.textContent = 'Enter to send · Shift+Enter for new line';
+      const enLabels = ['📦 Track Order','🚚 Shipping Info','💳 Payments','🔄 Returns','🏷️ Discounts','📞 Support'];
+      chips.forEach((c,i) => { if(enLabels[i]) c.textContent = enLabels[i]; });
+    }
+  }
+
+  // ── SEND MESSAGE ──────────────────────────────────────────────────────────
+  async function sendMessage(text) {
+    const input = document.getElementById('userInput');
+    const msg = (text || input.value).trim();
+    if (!msg) return;
+
+    appendMessage(msg, 'user');
+    if (!text) { input.value = ''; input.style.height = 'auto'; }
+    hideSuggestions();
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({message: msg})
+      });
+      const data = await res.json();
+      hideTyping();
+      appendMessage(data.answer, 'bot', { category: data.category, confidence: data.confidence, matched: data.matched, lang: data.lang });
+    } catch {
+      hideTyping();
+      appendMessage("Sorry, I'm having trouble connecting. Please try again.", 'bot');
+    }
+  }
+
+  // ── APPEND MESSAGE ────────────────────────────────────────────────────────
+  function appendMessage(text, role, meta = {}) {
+    const area = document.getElementById('messagesArea');
+    const wrap = document.createElement('div');
+    wrap.className = `flex gap-3 msg-anim ${role === 'user' ? 'flex-row-reverse self-end justify-start' : 'self-start'} max-w-[85%]`;
+
+    const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    const avatar = role === 'bot' ? '🤖' : '👤';
+
+    let metaHtml = '';
+    if (role === 'bot' && meta.category) {
+      metaHtml = `<div class="flex items-center gap-2 mt-2">
+        <span class="cat-badge text-xs font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">${meta.category}</span>
+        ${meta.confidence ? `<span class="text-xs" style="color:rgba(255,255,255,0.3)">·&nbsp;${meta.confidence}%</span>` : ''}
+      </div>`;
+    }
+
+    let feedbackHtml = '';
+    if (role === 'bot' && meta.matched) {
+      feedbackHtml = `<div class="flex gap-1 mt-2">
+        <button class="fb-btn text-sm px-2 py-0.5" onclick="this.textContent='👍 Thanks!'">👍</button>
+        <button class="fb-btn text-sm px-2 py-0.5" onclick="this.textContent='👎 Sorry!'">👎</button>
+      </div>`;
+    }
+
+    wrap.innerHTML = `
+      <div class="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm mt-0.5"
+        style="background:rgba(255,255,255,${role==='bot'?'0.08':'0.90'});${role==='user'?'color:#0a0a0a;':''}">
+        ${avatar}
+      </div>
+      <div>
+        <div class="px-4 py-3 rounded-2xl text-sm leading-relaxed ${role==='user' ? 'user-bubble font-medium rounded-br-sm' : 'bot-bubble text-white rounded-bl-sm'}"
+          style="${role==='bot'?'color:rgba(255,255,255,0.85);':''}">
+          ${escHtml(text)}${metaHtml}
+        </div>
+        ${feedbackHtml}
+      </div>`;
+
+    area.appendChild(wrap);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function escHtml(s){ if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function showTyping(){ /* minimal for demo */ }
+  function hideTyping(){ /* minimal for demo */ }
+  function hideSuggestions(){ document.getElementById('suggestionsBox').classList.add('hidden'); }
+  function sendChip(el){ sendMessage(el.textContent.replace(/^[^ ]+\s/,'')); }
+  function handleKey(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } }
+  function handleInput(el){ el.style.height='auto'; el.style.height = el.scrollHeight+'px'; }
+  function clearChat(){ document.getElementById('messagesArea').innerHTML=''; }
+
+  // ── IMAGE UPLOAD ──────────────────────────────────────────────────────
+  function triggerImageInput(){ document.getElementById('imageInput').click(); }
+
+  async function uploadImage(files){
+    if(!files || files.length === 0) return;
+    const file = files[0];
+    const fd = new FormData();
+    fd.append('image', file);
+    appendMessage('Uploading image...', 'user');
+    try{
+      const res = await fetch('/api/upload_image', { method: 'POST', body: fd });
+      const data = await res.json();
+      if(data.url){
+        // show image as user message
+        appendImage(data.url, 'user');
+        // notify chat endpoint about image (server will acknowledge)
+        const chatRes = await fetch('/api/chat', {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({message: '', image_url: data.url})
+        });
+        const chatData = await chatRes.json();
+        appendMessage(chatData.answer, 'bot', { category: chatData.category, confidence: chatData.confidence, matched: chatData.matched, lang: chatData.lang });
+      } else {
+        appendMessage('Image upload failed.', 'bot');
+      }
+    } catch (e){
+      appendMessage("Image upload error.", 'bot');
+    }
+  }
+
+  function appendImage(url, role){
+    const area = document.getElementById('messagesArea');
+    const wrap = document.createElement('div');
+    wrap.className = `flex gap-3 msg-anim ${role === 'user' ? 'flex-row-reverse self-end justify-start' : 'self-start'} max-w-[85%]`;
+    const avatar = role === 'bot' ? '🤖' : '👤';
+    wrap.innerHTML = `
+      <div class="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm mt-0.5"
+        style="background:rgba(255,255,255,${role==='bot'?'0.08':'0.90'});${role==='user'?'color:#0a0a0a;':''}">
+        ${avatar}
+      </div>
+      <div>
+        <div class="px-2 py-1 rounded-2xl text-sm leading-relaxed ${role==='user' ? 'user-bubble font-medium rounded-br-sm' : 'bot-bubble text-white rounded-bl-sm'}">
+          <img src="${url}" alt="uploaded" style="max-width:240px;border-radius:12px;display:block;" />
+        </div>
+      </div>`;
+    area.appendChild(wrap);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  // ── VOICE (SpeechRecognition) + TTS ───────────────────────────────────
+  let recognition = null;
+  let listening = false;
+  let lastInputWasVoice = false;
+  function toggleListen(){
+    if(listening){ stopListening(); return; }
+    startListening();
+  }
+  function startListening(){
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SpeechRec){ appendMessage('Speech recognition not supported in this browser.', 'bot'); return; }
+    recognition = new SpeechRec();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.onstart = () => { listening = true; document.getElementById('micBtn').style.background = '#ffe4b5'; };
+    recognition.onend = () => { listening = false; document.getElementById('micBtn').style.background = 'rgba(255,255,255,0.07)'; };
+    recognition.onresult = (e) => {
+      const t = Array.from(e.results).map(r => r[0].transcript).join('');
+      const input = document.getElementById('userInput');
+      input.value = t;
+      lastInputWasVoice = true;
+      sendMessage();
+    };
+    recognition.onerror = (e) => { appendMessage('Voice recognition error.', 'bot'); };
+    recognition.start();
+  }
+  function stopListening(){ if(recognition){ recognition.stop(); } listening=false; document.getElementById('micBtn').style.background = 'rgba(255,255,255,0.07)'; }
+
+  // Text-to-speech for bot replies
+  function speak(text, lang){
+    if(!window.speechSynthesis) return;
+    try{ window.speechSynthesis.cancel(); } catch(e){}
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === 'bn') ? 'bn-BD' : 'en-US';
+    window.speechSynthesis.speak(u);
+  }
+
+  // Modify appendMessage to speak bot replies
+  const _appendMessage = appendMessage;
+  appendMessage = function(text, role, meta = {}){
+    _appendMessage(text, role, meta);
+    if(role === 'bot' && lastInputWasVoice){
+      const lang = meta.lang || 'en';
+      speak(text, lang);
+      lastInputWasVoice = false;
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+{
+  "faqs": [
+    {
+      "id": 1,
+      "category": "Orders",
+      "question_en": "How do I place an order?",
+      "answer_en": "To place an order, browse our products, add items to your cart, proceed to checkout, enter your shipping details, and complete payment. You'll receive a confirmation email immediately after.",
+      "question_bn": "আমি কিভাবে অর্ডার করব?",
+      "answer_bn": "অর্ডার করতে আমাদের পণ্য ব্রাউজ করুন, কার্টে যোগ করুন, চেকআউটে যান, শিপিং তথ্য দিন এবং পেমেন্ট সম্পন্ন করুন। সাথে সাথে আপনার ইমেইলে নিশ্চিতকরণ পাবেন।",
+      "keywords": [
+        "place order",
+        "how to order",
+        "buy",
+        "purchase",
+        "checkout",
+        "cart",
+        "অর্ডার",
+        "কিনতে",
+        "কেনাকাটা"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "Orders",
+      "question_en": "Can I cancel my order?",
+      "answer_en": "Yes, you can cancel your order within 24 hours of placing it. Go to 'My Orders', select the order, and click 'Cancel Order'. After 24 hours, please contact our support team.",
+      "question_bn": "আমি কি আমার অর্ডার বাতিল করতে পারব?",
+      "answer_bn": "হ্যাঁ, অর্ডার দেওয়ার ২৪ ঘণ্টার মধ্যে বাতিল করা যাবে। 'আমার অর্ডার' এ যান, অর্ডার সিলেক্ট করুন এবং 'অর্ডার বাতিল' ক্লিক করুন। ২৪ ঘণ্টা পরে সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
+      "keywords": [
+        "cancel order",
+        "cancel",
+        "stop order",
+        "বাতিল",
+        "অর্ডার বাতিল"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "Orders",
+      "question_en": "How do I track my order?",
+      "answer_en": "You can track your order by going to 'My Orders' in your account, or using the tracking number sent to your email. We also send real-time SMS updates for every status change.",
+      "question_bn": "আমি কিভাবে আমার অর্ডার ট্র্যাক করব?",
+      "answer_bn": "আপনার অ্যাকাউন্টে 'আমার অর্ডার' এ গিয়ে বা ইমেইলে পাঠানো ট্র্যাকিং নম্বর ব্যবহার করে অর্ডার ট্র্যাক করুন। প্রতিটি স্ট্যাটাস পরিবর্তনে SMS আপডেট পাবেন।",
+      "keywords": [
+        "track order",
+        "tracking",
+        "where is my order",
+        "delivery status",
+        "ট্র্যাক",
+        "কোথায়",
+        "স্ট্যাটাস"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "Shipping",
+      "question_en": "What are the shipping charges?",
+      "answer_en": "Shipping is FREE for orders above ৳500. For orders below ৳500, a flat shipping fee of ৳60 applies within Dhaka, and ৳100 for outside Dhaka.",
+      "question_bn": "শিপিং চার্জ কত?",
+      "answer_bn": "৳৫০০ এর উপরে অর্ডারে শিপিং বিনামূল্যে। ৳৫০০ এর নিচে ঢাকার মধ্যে ৳৬০ এবং ঢাকার বাইরে ৳১০০ শিপিং চার্জ প্রযোজ্য।",
+      "keywords": [
+        "shipping cost",
+        "delivery charge",
+        "shipping fee",
+        "free shipping",
+        "শিপিং",
+        "ডেলিভারি চার্জ",
+        "বিনামূল্যে"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "Shipping",
+      "question_en": "How long does delivery take?",
+      "answer_en": "Within Dhaka: 1-2 business days. Outside Dhaka: 3-5 business days. Express delivery (same day) is available within Dhaka for orders placed before 12 PM.",
+      "question_bn": "ডেলিভারি কত দিন লাগবে?",
+      "answer_bn": "ঢাকার মধ্যে: ১-২ কার্যদিবস। ঢাকার বাইরে: ৩-৫ কার্যদিবস। ঢাকার মধ্যে দুপুর ১২টার আগে অর্ডার করলে একই দিনে এক্সপ্রেস ডেলিভারি পাওয়া যায়।",
+      "keywords": [
+        "delivery time",
+        "how long",
+        "when will i receive",
+        "fast delivery",
+        "ডেলিভারি সময়",
+        "কত দিন",
+        "কখন পাব"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "Payments",
+      "question_en": "What payment methods are accepted?",
+      "answer_en": "We accept bKash, Nagad, Rocket, credit/debit cards (Visa, Mastercard), and Cash on Delivery (COD). All online payments are secured with SSL encryption.",
+      "question_bn": "কোন পেমেন্ট পদ্ধতি গ্রহণ করা হয়?",
+      "answer_bn": "আমরা বিকাশ, নগদ, রকেট, ক্রেডিট/ডেবিট কার্ড (ভিসা, মাস্টারকার্ড) এবং ক্যাশ অন ডেলিভারি গ্রহণ করি। সব অনলাইন পেমেন্ট SSL এনক্রিপশন দিয়ে সুরক্ষিত।",
+      "keywords": [
+        "payment",
+        "pay",
+        "bkash",
+        "nagad",
+        "cod",
+        "cash on delivery",
+        "card",
+        "পেমেন্ট",
+        "বিকাশ",
+        "নগদ",
+        "ক্যাশ অন ডেলিভারি"
+      ]
+    },
+    {
+      "id": 7,
+      "category": "Payments",
+      "question_en": "Is cash on delivery available?",
+      "answer_en": "Yes! Cash on Delivery (COD) is available for all locations across Bangladesh. Simply select COD at checkout and pay when your order arrives.",
+      "question_bn": "ক্যাশ অন ডেলিভারি কি পাওয়া যায়?",
+      "answer_bn": "হ্যাঁ! বাংলাদেশের সব জায়গায় ক্যাশ অন ডেলিভারি পাওয়া যায়। চেকআউটে COD সিলেক্ট করুন এবং পণ্য পেলে পেমেন্ট করুন।",
+      "keywords": [
+        "cod",
+        "cash on delivery",
+        "pay on delivery",
+        "ক্যাশ অন ডেলিভারি",
+        "পণ্য পেলে পেমেন্ট"
+      ]
+    },
+    {
+      "id": 8,
+      "category": "Returns",
+      "question_en": "What is the return policy?",
+      "answer_en": "We offer a 7-day easy return policy. If you're not satisfied, return the product in its original condition and packaging. Refund will be processed within 3-5 business days.",
+      "question_bn": "রিটার্ন পলিসি কি?",
+      "answer_bn": "আমরা ৭ দিনের সহজ রিটার্ন পলিসি অফার করি। সন্তুষ্ট না হলে মূল প্যাকেজিং সহ পণ্য ফেরত দিন। ৩-৫ কার্যদিবসের মধ্যে রিফান্ড প্রক্রিয়া করা হবে।",
+      "keywords": [
+        "return",
+        "refund",
+        "exchange",
+        "return policy",
+        "রিটার্ন",
+        "ফেরত",
+        "রিফান্ড"
+      ]
+    },
+    {
+      "id": 9,
+      "category": "Returns",
+      "question_en": "How do I return a damaged product?",
+      "answer_en": "For damaged products, take photos immediately and contact us within 48 hours of delivery via WhatsApp or email. We'll arrange a free pickup and send a replacement or full refund.",
+      "question_bn": "ক্ষতিগ্রস্ত পণ্য কিভাবে ফেরত দেব?",
+      "answer_bn": "ক্ষতিগ্রস্ত পণ্যের ছবি তুলুন এবং ডেলিভারির ৪৮ ঘণ্টার মধ্যে WhatsApp বা ইমেইলে যোগাযোগ করুন। আমরা বিনামূল্যে পিকআপ এবং প্রতিস্থাপন বা সম্পূর্ণ রিফান্ড প্রদান করব।",
+      "keywords": [
+        "damaged",
+        "broken",
+        "defective",
+        "wrong product",
+        "ক্ষতিগ্রস্ত",
+        "ভাঙা",
+        "ত্রুটিপূর্ণ"
+      ]
+    },
+    {
+      "id": 10,
+      "category": "Account",
+      "question_en": "How do I create an account?",
+      "answer_en": "Click 'Sign Up' on our website, enter your name, email, and phone number, create a password, and verify your email. You can also sign up using your Facebook or Google account.",
+      "question_bn": "কিভাবে অ্যাকাউন্ট তৈরি করব?",
+      "answer_bn": "আমাদের ওয়েবসাইটে 'সাইন আপ' ক্লিক করুন, নাম, ইমেইল এবং ফোন নম্বর দিন, পাসওয়ার্ড তৈরি করুন এবং ইমেইল যাচাই করুন। Facebook বা Google দিয়েও সাইন আপ করা যাবে।",
+      "keywords": [
+        "create account",
+        "sign up",
+        "register",
+        "new account",
+        "অ্যাকাউন্ট",
+        "সাইন আপ",
+        "রেজিস্ট্রেশন"
+      ]
+    },
+    {
+      "id": 11,
+      "category": "Account",
+      "question_en": "I forgot my password. How do I reset it?",
+      "answer_en": "Click 'Forgot Password' on the login page, enter your registered email or phone number, and we'll send you a reset link. The link is valid for 30 minutes.",
+      "question_bn": "পাসওয়ার্ড ভুলে গেছি। কিভাবে রিসেট করব?",
+      "answer_bn": "লগইন পেজে 'পাসওয়ার্ড ভুলে গেছি' ক্লিক করুন, নিবন্ধিত ইমেইল বা ফোন নম্বর দিন, আমরা রিসেট লিংক পাঠাব। লিংকটি ৩০ মিনিট বৈধ।",
+      "keywords": [
+        "forgot password",
+        "reset password",
+        "login problem",
+        "পাসওয়ার্ড",
+        "ভুলে গেছি",
+        "রিসেট"
+      ]
+    },
+    {
+      "id": 12,
+      "category": "Products",
+      "question_en": "Are the products authentic?",
+      "answer_en": "Absolutely! We source all products directly from authorized manufacturers and distributors. Every product comes with an authenticity guarantee and official warranty where applicable.",
+      "question_bn": "পণ্যগুলো কি আসল?",
+      "answer_bn": "অবশ্যই! আমরা সরাসরি অনুমোদিত প্রস্তুতকারক এবং পরিবেশকদের কাছ থেকে পণ্য সংগ্রহ করি। প্রতিটি পণ্যে সত্যতার গ্যারান্টি এবং প্রযোজ্য ক্ষেত্রে অফিসিয়াল ওয়ারেন্টি থাকে।",
+      "keywords": [
+        "authentic",
+        "original",
+        "genuine",
+        "fake",
+        "quality",
+        "আসল",
+        "নকল",
+        "মান",
+        "গ্যারান্টি"
+      ]
+    },
+    {
+      "id": 13,
+      "category": "Products",
+      "question_en": "How do I know my size?",
+      "answer_en": "Each product page has a detailed size guide with measurements in cm and inches. You can also use our 'Size Finder' tool on the product page, or contact support for personalized recommendations.",
+      "question_bn": "আমার সাইজ কিভাবে জানব?",
+      "answer_bn": "প্রতিটি পণ্যের পেজে সেমি এবং ইঞ্চিতে বিস্তারিত সাইজ গাইড আছে। পণ্যের পেজে 'সাইজ ফাইন্ডার' টুলও ব্যবহার করতে পারেন, বা ব্যক্তিগত সুপারিশের জন্য সাপোর্টে যোগাযোগ করুন।",
+      "keywords": [
+        "size",
+        "size chart",
+        "measurement",
+        "fit",
+        "সাইজ",
+        "মাপ",
+        "কোন সাইজ"
+      ]
+    },
+    {
+      "id": 14,
+      "category": "Offers",
+      "question_en": "Do you have any discounts or promo codes?",
+      "answer_en": "Yes! We regularly offer discounts during festivals and special events. Subscribe to our newsletter and follow us on social media to get exclusive promo codes. First-time buyers get 10% off with code WELCOME10.",
+      "question_bn": "কোনো ছাড় বা প্রমো কোড আছে কি?",
+      "answer_bn": "হ্যাঁ! উৎসব ও বিশেষ অনুষ্ঠানে নিয়মিত ছাড় দেওয়া হয়। এক্সক্লুসিভ প্রমো কোড পেতে নিউজলেটার সাবস্ক্রাইব করুন এবং সোশ্যাল মিডিয়ায় ফলো করুন। প্রথমবার ক্রেতারা WELCOME10 কোড দিয়ে ১০% ছাড় পাবেন।",
+      "keywords": [
+        "discount",
+        "promo code",
+        "coupon",
+        "offer",
+        "sale",
+        "ছাড়",
+        "প্রোমো",
+        "অফার",
+        "কুপন"
+      ]
+    },
+    {
+      "id": 15,
+      "category": "Support",
+      "question_en": "How do I contact customer support?",
+      "answer_en": "You can reach us via: Live Chat (this chatbot, 24/7), WhatsApp: +880 1700-000000, Email: support@ourstore.com, Phone: 09611-000000 (9 AM - 9 PM). We typically respond within 2 hours.",
+      "question_bn": "কাস্টমার সাপোর্টে কিভাবে যোগাযোগ করব?",
+      "answer_bn": "আমাদের সাথে যোগাযোগ করুন: লাইভ চ্যাট (এই চ্যাটবট, ২৪/৭), WhatsApp: +৮৮০ ১৭০০-০০০০০০, ইমেইল: support@ourstore.com, ফোন: ০৯৬১১-০০০০০০ (সকাল ৯টা - রাত ৯টা)। সাধারণত ২ ঘণ্টার মধ্যে উত্তর দেওয়া হয়।",
+      "keywords": [
+        "contact",
+        "support",
+        "help",
+        "phone",
+        "email",
+        "whatsapp",
+        "যোগাযোগ",
+        "সাপোর্ট",
+        "সাহায্য",
+        "ফোন"
+      ]
+    },
+    {
+      "id": 16,
+      "category": "Wishlist",
+      "question_en": "How do I save items to my wishlist?",
+      "answer_en": "Click the heart icon on any product to add it to your wishlist. You can view and manage your wishlist from your account dashboard. Wishlisted items can be shared with friends and family.",
+      "question_bn": "উইশলিস্টে আইটেম কিভাবে সেভ করব?",
+      "answer_bn": "যেকোনো পণ্যে হার্ট আইকনে ক্লিক করুন উইশলিস্টে যোগ করতে। অ্যাকাউন্ট ড্যাশবোর্ড থেকে উইশলিস্ট দেখা ও পরিচালনা করুন। উইশলিস্টের আইটেম বন্ধু ও পরিবারের সাথে শেয়ার করা যাবে।",
+      "keywords": [
+        "wishlist",
+        "save",
+        "favorite",
+        "heart",
+        "উইশলিস্ট",
+        "সেভ",
+        "পছন্দ"
+      ]
+    },
+    {
+      "id": 17,
+      "category": "Orders",
+      "question_en": "Can I change my delivery address after placing an order?",
+      "answer_en": "You can change the delivery address within 2 hours of placing the order. Go to 'My Orders', select the order, and click 'Edit Address'. After 2 hours, please contact our support team urgently.",
+      "question_bn": "অর্ডার দেওয়ার পরে ডেলিভারি ঠিকানা পরিবর্তন করা যাবে?",
+      "answer_bn": "অর্ডার দেওয়ার ২ ঘণ্টার মধ্যে ডেলিভারি ঠিকানা পরিবর্তন করা যাবে। 'আমার অর্ডার' এ গিয়ে অর্ডার সিলেক্ট করুন এবং 'ঠিকানা সম্পাদনা' ক্লিক করুন। ২ ঘণ্টা পরে দ্রুত সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
+      "keywords": [
+        "change address",
+        "edit address",
+        "delivery address",
+        "ঠিকানা পরিবর্তন",
+        "ঠিকানা"
+      ]
+    },
+    {
+      "id": 18,
+      "category": "Payments",
+      "question_en": "Why was my payment declined?",
+      "answer_en": "Payments may be declined due to: incorrect card details, insufficient funds, bank restrictions, or security checks. Try a different payment method or contact your bank. You can also try our bKash or COD option.",
+      "question_bn": "পেমেন্ট কেন প্রত্যাখ্যান হলো?",
+      "answer_bn": "পেমেন্ট প্রত্যাখ্যান হতে পারে: ভুল কার্ড তথ্য, অপর্যাপ্ত ব্যালেন্স, ব্যাংক বিধিনিষেধ বা নিরাপত্তা যাচাইয়ের কারণে। ভিন্ন পেমেন্ট পদ্ধতি ব্যবহার করুন বা ব্যাংকে যোগাযোগ করুন। বিকাশ বা COD অপশনও ব্যবহার করতে পারেন।",
+      "keywords": [
+        "payment failed",
+        "declined",
+        "payment error",
+        "not working",
+        "পেমেন্ট ব্যর্থ",
+        "প্রত্যাখ্যান"
+      ]
+    },
+    {
+      "id": 19,
+      "category": "Products",
+      "question_en": "Is a product out of stock? When will it be available?",
+      "answer_en": "Click 'Notify Me' on any out-of-stock product to receive an email/SMS when it's restocked. You can also check the 'Coming Soon' section for upcoming products. Most items are restocked within 7-14 days.",
+      "question_bn": "পণ্য স্টক আউট হলে কখন পাওয়া যাবে?",
+      "answer_bn": "স্টক আউট পণ্যে 'নোটিফাই মি' ক্লিক করুন পুনরায় স্টক হলে ইমেইল/SMS পেতে। 'আসছে শীঘ্রই' বিভাগও দেখুন। বেশিরভাগ পণ্য ৭-১৪ দিনের মধ্যে পুনরায় স্টক করা হয়।",
+      "keywords": [
+        "out of stock",
+        "unavailable",
+        "when available",
+        "restock",
+        "স্টক আউট",
+        "পাওয়া যাচ্ছে না",
+        "কখন পাব"
+      ]
+    },
+    {
+      "id": 20,
+      "category": "Offers",
+      "question_en": "Do you offer bulk/wholesale pricing?",
+      "answer_en": "Yes, we offer special wholesale pricing for bulk orders of 10+ units. Contact our B2B team at wholesale@ourstore.com or call 09611-000001 for a custom quote.",
+      "question_bn": "পাইকারি মূল্য কি পাওয়া যায়?",
+      "answer_bn": "হ্যাঁ, ১০ বা তার বেশি পণ্যের বাল্ক অর্ডারে বিশেষ পাইকারি মূল্য পাওয়া যায়। কাস্টম কোটের জন্য wholesale@ourstore.com এ ইমেইল করুন বা ০৯৬১১-০০০০০১ এ কল করুন।",
+      "keywords": [
+        "wholesale",
+        "bulk",
+        "bulk order",
+        "wholesale price",
+        "পাইকারি",
+        "বাল্ক",
+        "একসাথে অনেক"
+      ]
+    },
+    {
+      "id": 21,
+      "category": "Products",
+      "question_en": "Image: 1779785859_images.jpg",
+      "answer_en": "700 taka",
+      "question_bn": "",
+      "answer_bn": "৭০০ টাকা",
+      "keywords": [
+        "price",
+        "cost",
+        "how much",
+        "price?"
+      ],
+      "image": "/static/uploads/1779785859_images.jpg"
+    },
+    {
+      "id": 22,
+      "category": "Products",
+      "question_en": "Image: 1780127460_images.jpg",
+      "answer_en": "700 taka",
+      "question_bn": "",
+      "answer_bn": "৭০০ টাকা",
+      "keywords": [
+        "price",
+        "cost",
+        "how much",
+        "price?"
+      ],
+      "image": "/static/uploads/1780127460_images.jpg"
+    },
+    {
+      "id": 23,
+      "category": "Products",
+      "question_en": "Image: 1780127590_images.jpg",
+      "answer_en": "700 taka",
+      "question_bn": "",
+      "answer_bn": "৭০০ টাকা",
+      "keywords": [
+        "price",
+        "cost",
+        "how much",
+        "price?"
+      ],
+      "image": "/static/uploads/1780127590_images.jpg"
+    },
+    {
+      "id": 24,
+      "category": "Products",
+      "question_en": "Image: 1780129594_images.jpg",
+      "answer_en": "700 taka",
+      "question_bn": "",
+      "answer_bn": "৭০০ টাকা",
+      "keywords": [
+        "price",
+        "cost",
+        "how much",
+        "price?"
+      ],
+      "image": "/static/uploads/1780129594_images.jpg"
+    }
+  ]
+}
